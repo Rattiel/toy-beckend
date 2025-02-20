@@ -1,5 +1,6 @@
 package com.demo.user.web;
 
+import com.demo.common.web.MessageResponse;
 import com.demo.user.service.UserRegisterService;
 import com.demo.user.web.dto.UserRegisterParam;
 import com.demo.user.web.dto.UserRegisterRequest;
