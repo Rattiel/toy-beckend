@@ -1,7 +1,7 @@
 package com.demo.auth.authorization.jackson2;
 
-import com.demo.auth.authorization.Account;
-import com.demo.auth.authorization.MfaVerificationMethod;
+import com.demo.auth.authorization.core.Account;
+import com.demo.auth.authorization.core.mfa.MfaVerificationMethod;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;

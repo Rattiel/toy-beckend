@@ -1,15 +1,16 @@
 package com.demo.auth.config
 
-import com.demo.auth.authorization.login.LoginRedirectHandler
-import com.demo.auth.authorization.login.MfaRedirectHandler
-import com.demo.auth.authorization.mfa.MfaAuthenticationProvider
-import com.demo.auth.authorization.mfa.MfaAuthenticationRetryHandler
-import com.demo.auth.authorization.mfa.filter.MfaAuthenticationFilter
-import com.demo.auth.authorization.mfa.filter.RetrieveMfaAuthenticationFilter
-import com.demo.auth.authorization.mfa.token.ConsoleMfaCodePublisher
-import com.demo.auth.authorization.mfa.token.DelegateMfaCodePublisher
-import com.demo.auth.authorization.mfa.token.MfaTokenAuthenticationProvider
-import com.demo.auth.authorization.LoginParameterNames
+import com.demo.auth.authorization.core.LoginRedirectHandler
+import com.demo.auth.authorization.core.MfaRedirectHandler
+import com.demo.auth.authorization.core.mfa.MfaAuthenticationProvider
+import com.demo.auth.authorization.core.mfa.MfaAuthenticationRetryHandler
+import com.demo.auth.authorization.core.mfa.filter.MfaAuthenticationFilter
+import com.demo.auth.authorization.core.mfa.filter.RetrieveMfaAuthenticationFilter
+import com.demo.auth.authorization.core.mfa.token.ConsoleMfaCodePublisher
+import com.demo.auth.authorization.core.mfa.token.DelegateMfaCodePublisher
+import com.demo.auth.authorization.core.mfa.token.MfaTokenAuthenticationProvider
+import com.demo.auth.authorization.core.constant.LoginParameterNames
+import com.demo.auth.authorization.core.constant.MfaParameterNames
 import com.demo.auth.web.service.InmemoryUserService
 import com.demo.auth.web.service.UserService
 import lombok.extern.slf4j.Slf4j
@@ -103,11 +104,13 @@ class DefaultSecurityConfig {
                         this.setRequestCache(REQUEST_CACHE)
                     })
                     this.setAuthenticationFailureHandler(
-                        MfaAuthenticationRetryHandler("$MFA_URL?error").apply {
+                        MfaAuthenticationRetryHandler("$MFA_URL?error")
+                            .apply {
                             this.setLoginPage(LOGIN_URL)
                         }
                     )
                     this.setFilterProcessesUrl(MFA_URL)
+                    this.setCodeParameter(MfaParameterNames.CODE)
                 },
                 UsernamePasswordAuthenticationFilter::class.java
             )

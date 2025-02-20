@@ -1,6 +1,6 @@
 package com.demo.auth.authorization.jackson2;
 
-import com.demo.auth.authorization.Account;
+import com.demo.auth.authorization.core.Account;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 public class AuthServerJackson2Module extends SimpleModule {

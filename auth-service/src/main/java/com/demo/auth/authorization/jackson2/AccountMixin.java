@@ -1,6 +1,6 @@
 package com.demo.auth.authorization.jackson2;
 
-import com.demo.auth.authorization.Account;
+import com.demo.auth.authorization.core.Account;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
