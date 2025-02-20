@@ -1,4 +1,4 @@
-rootProject.name = "demo-msa"
+rootProject.name = "toy-backend"
 
 val buildFiles: FileTree = fileTree(rootDir) {
     include("**/*.gradle", "**/*.gradle.kts")
@@ -15,9 +15,15 @@ buildFiles.forEach { buildFile: File ->
 
 pluginManagement {
     val kotlinVersion: String by settings
+    val springBootVersion: String by settings
+    val springDependencyManagementVersion: String by settings
 
     plugins {
         java
         kotlin("jvm") version kotlinVersion
+        kotlin("plugin.spring") version kotlinVersion
+        kotlin("plugin.lombok") version kotlinVersion
+        id("org.springframework.boot") version springBootVersion
+        id("io.spring.dependency-management") version springDependencyManagementVersion
     }
 }
