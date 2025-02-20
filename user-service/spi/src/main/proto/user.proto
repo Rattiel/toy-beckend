@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package com.demo.user.rpc;
+
+option java_package = "com.demo.user.rpc";
+option java_outer_classname = "UserProto";
+
+service UserService {
+  rpc findByUsername(UsernameRequest) returns (User);
+}
+
+message UsernameRequest {
+  string username = 1;
+}
+
+message User {
+  string username = 1;
+  string password = 2;
+  string email = 11;
+  string phone = 12;
+  string firstName = 13;
+  string lastName = 14;
+  bool mfaEnable = 30;
+  string mfaMethod = 31;
+}

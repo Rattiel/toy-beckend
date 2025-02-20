@@ -12,6 +12,7 @@ configurations {
 
 dependencies {
     implementation(project(":common"))
+    implementation(project(":user-service:spi"))
     implementation("com.querydsl:querydsl-jpa:${dependencyManagement.importedProperties["querydsl.version"]}:jakarta")
     annotationProcessor("com.querydsl:querydsl-apt:${dependencyManagement.importedProperties["querydsl.version"]}:jakarta")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")

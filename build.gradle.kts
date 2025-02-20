@@ -14,11 +14,13 @@ allprojects {
     apply(plugin = "java")
     apply(plugin = "org.jetbrains.kotlin.jvm")
 
-    group = "com.example"
+    group = "com.demo"
     version = "0.0.1-SNAPSHOT"
 
     repositories {
         mavenCentral()
+        maven("https://repo.spring.io/milestone")
+        maven("https://repo.spring.io/snapshot")
     }
 
     java {

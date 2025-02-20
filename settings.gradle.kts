@@ -17,6 +17,7 @@ pluginManagement {
     val kotlinVersion: String by settings
     val springBootVersion: String by settings
     val springDependencyManagementVersion: String by settings
+    val protobufVersion: String by settings
 
     plugins {
         java
@@ -25,5 +26,6 @@ pluginManagement {
         kotlin("plugin.lombok") version kotlinVersion
         id("org.springframework.boot") version springBootVersion
         id("io.spring.dependency-management") version springDependencyManagementVersion
+        id("com.google.protobuf") version protobufVersion
     }
 }
