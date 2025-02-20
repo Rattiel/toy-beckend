@@ -1,6 +1,10 @@
 package com.demo.auth.config
 
 import com.demo.auth.authorization.login.LoginRedirectHandler
+import com.demo.auth.authorization.login.MfaRedirectHandler
+import com.demo.auth.authorization.mfa.MfaAuthenticationProvider
+import com.demo.auth.authorization.mfa.token.ConsoleMfaCodePublisher
+import com.demo.auth.authorization.mfa.token.DelegateMfaCodePublisher
 import com.demo.auth.web.LoginParameterNames
 import com.demo.auth.web.service.InmemoryUserService
 import com.demo.auth.web.service.UserService
@@ -19,7 +23,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.security.web.context.DelegatingSecurityContextRepository
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository
@@ -35,6 +38,7 @@ import java.util.*
 class DefaultSecurityConfig {
     companion object {
         const val LOGIN_URL: String = "/login"
+        const val MFA_URL: String = "/mfa"
         const val PASSWORD_CHANGE_URL: String = "/not-support"
         val REQUEST_CACHE: RequestCache = CookieRequestCache()
         val SESSION_CONTEXT_HOLDER: SecurityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy()
@@ -64,7 +68,10 @@ class DefaultSecurityConfig {
                 formLogin.loginProcessingUrl(LOGIN_URL)
                 formLogin.usernameParameter(LoginParameterNames.USERNAME)
                 formLogin.passwordParameter(LoginParameterNames.PASSWORD)
-                formLogin.successHandler(SavedRequestAwareAuthenticationSuccessHandler())
+                formLogin.successHandler(MfaRedirectHandler().apply {
+                    this.setMfaPage(MFA_URL)
+                    this.setRequestCache(REQUEST_CACHE)
+                })
                 formLogin.failureHandler(null)
                 formLogin.securityContextRepository(SESSION_CONTEXT_REPOSITORY)
                 formLogin.authenticationDetailsSource(WebAuthenticationDetailsSource())
@@ -104,9 +111,17 @@ class DefaultSecurityConfig {
         userService: UserService,
         passwordEncoder: PasswordEncoder
     ): AuthenticationProvider {
-        return DaoAuthenticationProvider(passwordEncoder).apply {
-            setUserDetailsService(userService)
-            setUserDetailsPasswordService(userService)
+        return MfaAuthenticationProvider(
+            DaoAuthenticationProvider(passwordEncoder).apply {
+                setUserDetailsService(userService)
+                setUserDetailsPasswordService(userService)
+            }
+        ).apply {
+            setPublisher(
+                DelegateMfaCodePublisher(
+                    ConsoleMfaCodePublisher()
+                )
+            )
         }
     }
 
