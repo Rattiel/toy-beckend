@@ -1,6 +1,6 @@
 package com.demo.user.repository.dto;
 
-import com.demo.user.repository.entity.MfaVerificationMethod;
+import com.demo.user.repository.entity.MfaMethod;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +25,7 @@ public class UserPreviewImpl implements UserPreview {
 
     private Boolean mfaEnabled;
 
-    private MfaVerificationMethod mfaVerificationMethod;
+    private MfaMethod mfaMethod;
 
     private LocalDateTime createdAt;
 

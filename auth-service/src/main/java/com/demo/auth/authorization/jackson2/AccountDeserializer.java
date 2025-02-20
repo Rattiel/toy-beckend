@@ -1,7 +1,6 @@
 package com.demo.auth.authorization.jackson2;
 
 import com.demo.auth.authorization.core.Account;
-import com.demo.auth.authorization.core.mfa.MfaVerificationMethod;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -34,7 +33,7 @@ public class AccountDeserializer extends JsonDeserializer<Account> {
         boolean accountNonExpired = readJsonNode(jsonNode, "accountNonExpired").asBoolean();
         boolean credentialsNonExpired = readJsonNode(jsonNode, "credentialsNonExpired").asBoolean();
         boolean accountNonLocked = readJsonNode(jsonNode, "accountNonLocked").asBoolean();
-        String mfaVerificationMethod = readJsonNode(jsonNode, "mfaVerificationMethod").asText();
+        String mfaMethod = readJsonNode(jsonNode, "mfaMethod").asText();
         Set<? extends GrantedAuthority> authorities = mapper.convertValue(
                 jsonNode.get("authorities"),
                 SIMPLE_GRANTED_AUTHORITY_SET
@@ -50,7 +49,7 @@ public class AccountDeserializer extends JsonDeserializer<Account> {
                 accountNonExpired,
                 credentialsNonExpired,
                 accountNonLocked,
-                MfaVerificationMethod.valueOf(mfaVerificationMethod),
+                mfaMethod,
                 authorities
         );
     }

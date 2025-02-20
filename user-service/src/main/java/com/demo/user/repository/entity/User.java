@@ -50,7 +50,7 @@ public class User {
     @Setter
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private MfaVerificationMethod mfaVerificationMethod;
+    private MfaMethod mfaMethod;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

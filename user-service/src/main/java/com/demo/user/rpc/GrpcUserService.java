@@ -30,7 +30,7 @@ public class GrpcUserService extends UserServiceGrpc.UserServiceImplBase {
                             .setFirstName(user.getFirstName())
                             .setLastName(user.getLastName())
                             .setMfaEnable(user.getMfaEnabled())
-                            .setMfaMethod(user.getMfaVerificationMethod().getValue())
+                            .setMfaMethod(user.getMfaMethod().getValue())
                             .build()
             );
             responseObserver.onCompleted();

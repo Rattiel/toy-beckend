@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public enum MfaVerificationMethod {
+public enum MfaMethod {
     NONE("NONE"),
     EMAIL("EMAIL"),
     PHONE("PHONE");

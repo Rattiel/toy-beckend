@@ -1,6 +1,6 @@
 package com.demo.user.repository.dto;
 
-import com.demo.user.repository.entity.MfaVerificationMethod;
+import com.demo.user.repository.entity.MfaMethod;
 
 import java.time.LocalDateTime;
 
@@ -19,7 +19,7 @@ public interface UserPreview {
 
     Boolean getMfaEnabled();
 
-    MfaVerificationMethod getMfaVerificationMethod();
+    MfaMethod getMfaMethod();
 
     LocalDateTime getCreatedAt();
 

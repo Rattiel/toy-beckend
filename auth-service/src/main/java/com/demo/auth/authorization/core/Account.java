@@ -1,7 +1,7 @@
 package com.demo.auth.authorization.core;
 
+import com.demo.auth.authorization.core.constant.MfaParameterNames;
 import com.demo.auth.authorization.core.mfa.MfaDetails;
-import com.demo.auth.authorization.core.mfa.MfaVerificationMethod;
 import lombok.Getter;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
@@ -36,7 +36,7 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
 
     private final boolean enabled;
 
-    private final MfaVerificationMethod mfaVerificationMethod;
+    private final String mfaMethod;
 
     private final Set<GrantedAuthority> authorities;
 
@@ -51,7 +51,7 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
             boolean accountNonExpired,
             boolean credentialsNonExpired,
             boolean accountNonLocked,
-            MfaVerificationMethod mfaVerificationMethod,
+            String mfaMethod,
             Collection<? extends GrantedAuthority> authorities) {
         Assert.isTrue(username != null && !username.isEmpty() && password != null,
                 "Cannot pass null or empty values to constructor");
@@ -65,7 +65,7 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
         this.accountNonExpired = accountNonExpired;
         this.credentialsNonExpired = credentialsNonExpired;
         this.accountNonLocked = accountNonLocked;
-        this.mfaVerificationMethod = mfaVerificationMethod;
+        this.mfaMethod = mfaMethod;
         this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
     }
 
@@ -80,22 +80,19 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
     }
 
     @Override
-    public MfaVerificationMethod getVerificationMethod() {
-        return this.mfaVerificationMethod;
+    public String getVerificationMethod() {
+        return this.mfaMethod;
     }
 
     @Override
     public String getVerificationAddress() {
-        if (this.mfaVerificationMethod == null || this.mfaVerificationMethod.equals(MfaVerificationMethod.NONE)) {
-            return null;
-        }
-        if (this.mfaVerificationMethod.equals(MfaVerificationMethod.PHONE)) {
+        if (this.mfaMethod.equals(MfaParameterNames.PHONE)) {
             return this.phone;
         }
-        if (this.mfaVerificationMethod.equals(MfaVerificationMethod.EMAIL)) {
+        if (this.mfaMethod.equals(MfaParameterNames.EMAIL)) {
             return this.email;
         }
-        throw new IllegalArgumentException("Unsupported verification method: " + this.mfaVerificationMethod);
+        return null;
     }
 
     public static Builder withUsername(String username) {
@@ -137,7 +134,7 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
 
         private boolean disabled;
 
-        private MfaVerificationMethod mfaVerificationMethod = MfaVerificationMethod.NONE;
+        private String mfaMethod = null;
 
         private List<GrantedAuthority> authorities = new ArrayList<>();
 
@@ -188,8 +185,8 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
             return this;
         }
 
-        public Builder mfaVerificationMethod(MfaVerificationMethod mfaVerificationMethod) {
-            this.mfaVerificationMethod = mfaVerificationMethod;
+        public Builder mfaMethod(String mfaMethod) {
+            this.mfaMethod = mfaMethod;
             return this;
         }
 
@@ -251,7 +248,7 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
                     !this.accountExpired,
                     !this.credentialsExpired,
                     !this.accountLocked,
-                    this.mfaVerificationMethod,
+                    this.mfaMethod,
                     this.authorities
             );
         }

@@ -1,6 +1,6 @@
 package com.demo.user.web.converter;
 
-import com.demo.user.repository.entity.MfaVerificationMethod;
+import com.demo.user.repository.entity.MfaMethod;
 import com.demo.user.repository.entity.User;
 import com.demo.user.web.dto.UserRegisterParam;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class UserConverter implements Function<UserRegisterParam, User> {
                 .firstName(param.getFirstName())
                 .lastName(param.getLastName())
                 .mfaEnabled(false)
-                .mfaVerificationMethod(MfaVerificationMethod.NONE)
+                .mfaMethod(MfaMethod.NONE)
                 .build();
     }
 }
