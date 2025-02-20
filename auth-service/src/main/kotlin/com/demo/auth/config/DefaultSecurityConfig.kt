@@ -18,6 +18,8 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
+import org.springframework.security.web.savedrequest.CookieRequestCache
+import org.springframework.security.web.savedrequest.RequestCache
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher
 import java.util.*
 
@@ -27,6 +29,7 @@ import java.util.*
 class DefaultSecurityConfig {
     companion object {
         const val LOGIN_URL: String = "/login"
+        val REQUEST_CACHE: RequestCache = CookieRequestCache()
     }
 
     @Bean
@@ -36,12 +39,17 @@ class DefaultSecurityConfig {
             .httpBasic { httpBasic ->
                 httpBasic.disable()
             }
+            .requestCache { requestCache ->
+                requestCache.requestCache(REQUEST_CACHE)
+            }
             .authorizeHttpRequests { authorize ->
                 authorize.requestMatchers("/favicon.*", "/assets/**", "/robots.txt").permitAll()
                 authorize.requestMatchers("/", "/error").permitAll()
                 authorize.anyRequest().authenticated()
             }
             .formLogin { formLogin ->
+                formLogin.loginPage(LOGIN_URL)
+                formLogin.loginProcessingUrl(LOGIN_URL)
                 formLogin.usernameParameter(LoginParameterNames.USERNAME)
                 formLogin.passwordParameter(LoginParameterNames.PASSWORD)
                 formLogin.successHandler(SavedRequestAwareAuthenticationSuccessHandler())
