@@ -35,6 +35,7 @@ import java.util.*
 class DefaultSecurityConfig {
     companion object {
         const val LOGIN_URL: String = "/login"
+        const val PASSWORD_CHANGE_URL: String = "/not-support"
         val REQUEST_CACHE: RequestCache = CookieRequestCache()
         val SESSION_CONTEXT_HOLDER: SecurityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy()
         val SESSION_CONTEXT_REPOSITORY: SecurityContextRepository =
@@ -71,6 +72,9 @@ class DefaultSecurityConfig {
             }
             .securityContext { securityContext ->
                 securityContext.securityContextRepository(SESSION_CONTEXT_REPOSITORY)
+            }
+            .passwordManagement { passwordManagement ->
+                passwordManagement.changePasswordPage(PASSWORD_CHANGE_URL)
             }
             .exceptionHandling { exception ->
                 exception.defaultAccessDeniedHandlerFor(
