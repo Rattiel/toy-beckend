@@ -27,7 +27,7 @@ public class LoginRedirectHandler implements AccessDeniedHandler {
 
     private RequestCache requestCache = new HttpSessionRequestCache();
 
-    private SecurityContextHolderStrategy strategy = SecurityContextHolder.getContextHolderStrategy();
+    private SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
 
     private SecurityContextRepository securityContextRepository = new RequestAttributeSecurityContextRepository();
 
@@ -38,8 +38,8 @@ public class LoginRedirectHandler implements AccessDeniedHandler {
             AccessDeniedException accessDeniedException
     ) throws IOException {
         // Remove current authentication.
-        SecurityContext emptyContext = strategy.createEmptyContext();
-        strategy.setContext(emptyContext);
+        SecurityContext emptyContext = securityContextHolderStrategy.createEmptyContext();
+        securityContextHolderStrategy.setContext(emptyContext);
 
         // Persist empty authentication.
         securityContextRepository.saveContext(emptyContext, request, response);

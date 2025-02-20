@@ -5,6 +5,7 @@ import com.demo.auth.authorization.login.MfaRedirectHandler
 import com.demo.auth.authorization.mfa.MfaAuthenticationProvider
 import com.demo.auth.authorization.mfa.MfaAuthenticationRetryHandler
 import com.demo.auth.authorization.mfa.filter.MfaAuthenticationFilter
+import com.demo.auth.authorization.mfa.filter.RetrieveMfaAuthenticationFilter
 import com.demo.auth.authorization.mfa.token.ConsoleMfaCodePublisher
 import com.demo.auth.authorization.mfa.token.DelegateMfaCodePublisher
 import com.demo.auth.authorization.mfa.token.MfaTokenAuthenticationProvider
@@ -47,7 +48,7 @@ class DefaultSecurityConfig {
         const val MFA_URL: String = "/mfa"
         const val PASSWORD_CHANGE_URL: String = "/not-support"
         val REQUEST_CACHE: RequestCache = CookieRequestCache()
-        val SESSION_CONTEXT_HOLDER: SecurityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy()
+        val SESSION_CONTEXT_HOLDER_STRATEGY: SecurityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy()
         val SESSION_CONTEXT_REPOSITORY: SecurityContextRepository =
             DelegatingSecurityContextRepository(
                 HttpSessionSecurityContextRepository()
@@ -67,6 +68,7 @@ class DefaultSecurityConfig {
             .authorizeHttpRequests { authorize ->
                 authorize.requestMatchers("/favicon.*", "/assets/**", "/robots.txt").permitAll()
                 authorize.requestMatchers("/", "/error").permitAll()
+                authorize.requestMatchers(MFA_URL).hasAuthority("SCOPE_MFA_AUTHENTICATION_NEED")
                 authorize.anyRequest().authenticated()
             }
             .formLogin { formLogin ->
@@ -95,7 +97,7 @@ class DefaultSecurityConfig {
                         MfaTokenAuthenticationProvider()
                     )
                 ).apply {
-                    this.setSecurityContextHolderStrategy(SESSION_CONTEXT_HOLDER)
+                    this.setSecurityContextHolderStrategy(SESSION_CONTEXT_HOLDER_STRATEGY)
                     this.setSecurityContextRepository(SESSION_CONTEXT_REPOSITORY)
                     this.setAuthenticationSuccessHandler(SavedRequestAwareAuthenticationSuccessHandler().apply {
                         this.setRequestCache(REQUEST_CACHE)
@@ -109,12 +111,21 @@ class DefaultSecurityConfig {
                 },
                 UsernamePasswordAuthenticationFilter::class.java
             )
+            .addFilterBefore(
+                RetrieveMfaAuthenticationFilter().apply {
+                    this.setMfaPage(MFA_URL)
+                    this.setMfaProcessingUrl(MFA_URL)
+                    this.setSecurityContextHolderStrategy(SESSION_CONTEXT_HOLDER_STRATEGY)
+                    this.setSecurityContextRepository(SESSION_CONTEXT_REPOSITORY)
+                },
+                UsernamePasswordAuthenticationFilter::class.java
+            )
             .exceptionHandling { exception ->
                 exception.defaultAccessDeniedHandlerFor(
                     LoginRedirectHandler().apply {
                         setLoginFormUrl(LOGIN_URL)
                         setRequestCache(REQUEST_CACHE)
-                        setStrategy(SESSION_CONTEXT_HOLDER)
+                        setSecurityContextHolderStrategy(SESSION_CONTEXT_HOLDER_STRATEGY)
                         setSecurityContextRepository(SESSION_CONTEXT_REPOSITORY)
                     },
                     MediaTypeRequestMatcher(MediaType.TEXT_HTML)
