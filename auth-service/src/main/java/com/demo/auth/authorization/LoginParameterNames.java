@@ -1,4 +1,4 @@
-package com.demo.auth.web;
+package com.demo.auth.authorization;
 
 public final class LoginParameterNames {
     public static final String USERNAME = "username";

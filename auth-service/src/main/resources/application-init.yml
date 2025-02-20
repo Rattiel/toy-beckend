@@ -1,0 +1,6 @@
+spring:
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:database/drop-schema.sql, classpath:database/init-schema.sql
+      data-locations: classpath:database/init-data.sql

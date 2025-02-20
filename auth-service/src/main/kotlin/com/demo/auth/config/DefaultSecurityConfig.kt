@@ -9,7 +9,7 @@ import com.demo.auth.authorization.mfa.filter.RetrieveMfaAuthenticationFilter
 import com.demo.auth.authorization.mfa.token.ConsoleMfaCodePublisher
 import com.demo.auth.authorization.mfa.token.DelegateMfaCodePublisher
 import com.demo.auth.authorization.mfa.token.MfaTokenAuthenticationProvider
-import com.demo.auth.web.LoginParameterNames
+import com.demo.auth.authorization.LoginParameterNames
 import com.demo.auth.web.service.InmemoryUserService
 import com.demo.auth.web.service.UserService
 import lombok.extern.slf4j.Slf4j
@@ -123,10 +123,10 @@ class DefaultSecurityConfig {
             .exceptionHandling { exception ->
                 exception.defaultAccessDeniedHandlerFor(
                     LoginRedirectHandler().apply {
-                        setLoginFormUrl(LOGIN_URL)
-                        setRequestCache(REQUEST_CACHE)
-                        setSecurityContextHolderStrategy(SESSION_CONTEXT_HOLDER_STRATEGY)
-                        setSecurityContextRepository(SESSION_CONTEXT_REPOSITORY)
+                        this.setLoginFormUrl(LOGIN_URL)
+                        this.setRequestCache(REQUEST_CACHE)
+                        this.setSecurityContextHolderStrategy(SESSION_CONTEXT_HOLDER_STRATEGY)
+                        this.setSecurityContextRepository(SESSION_CONTEXT_REPOSITORY)
                     },
                     MediaTypeRequestMatcher(MediaType.TEXT_HTML)
                 )
