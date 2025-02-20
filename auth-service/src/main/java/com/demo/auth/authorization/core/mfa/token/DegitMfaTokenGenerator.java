@@ -19,7 +19,7 @@ public class DegitMfaTokenGenerator implements MfaTokenGenerator {
         String code = this.createCode();
         LocalDateTime now = LocalDateTime.now();
         return MfaToken.builder()
-                .verificationMethod(details.getVerificationMethod().getValue())
+                .verificationMethod(details.getVerificationMethod())
                 .verificationAddress(details.getVerificationAddress())
                 .code(code)
                 .expiresAt(now.plusSeconds(getTokenLifetime()))
