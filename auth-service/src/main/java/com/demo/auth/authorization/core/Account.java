@@ -36,6 +36,8 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
 
     private final boolean enabled;
 
+    private final boolean mfaEnable;
+
     private final String mfaMethod;
 
     private final Set<GrantedAuthority> authorities;
@@ -51,6 +53,7 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
             boolean accountNonExpired,
             boolean credentialsNonExpired,
             boolean accountNonLocked,
+            boolean mfaEnable,
             String mfaMethod,
             Collection<? extends GrantedAuthority> authorities) {
         Assert.isTrue(username != null && !username.isEmpty() && password != null,
@@ -65,6 +68,7 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
         this.accountNonExpired = accountNonExpired;
         this.credentialsNonExpired = credentialsNonExpired;
         this.accountNonLocked = accountNonLocked;
+        this.mfaEnable = mfaEnable;
         this.mfaMethod = mfaMethod;
         this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
     }
@@ -134,6 +138,8 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
 
         private boolean disabled;
 
+        private boolean mfaEnable = false;
+
         private String mfaMethod = null;
 
         private List<GrantedAuthority> authorities = new ArrayList<>();
@@ -182,6 +188,11 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
         public Builder lastName(String lastName) {
             Assert.notNull(lastName, "lastName cannot be null");
             this.lastName = lastName;
+            return this;
+        }
+
+        public Builder mfaEnable(boolean mfaEnable) {
+            this.mfaEnable = mfaEnable;
             return this;
         }
 
@@ -248,6 +259,7 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
                     !this.accountExpired,
                     !this.credentialsExpired,
                     !this.accountLocked,
+                    this.mfaEnable,
                     this.mfaMethod,
                     this.authorities
             );

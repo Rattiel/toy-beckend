@@ -1,5 +1,6 @@
 package com.demo.auth.config
 
+import com.demo.auth.authorization.core.Account
 import com.demo.auth.authorization.core.LoginRedirectHandler
 import com.demo.auth.authorization.core.MfaRedirectHandler
 import com.demo.auth.authorization.core.mfa.MfaAuthenticationProvider
@@ -167,10 +168,16 @@ class DefaultSecurityConfig {
 
     @Bean
     fun userService(passwordEncoder: PasswordEncoder): UserService {
-        val admin = User.withUsername("admin")
+        val admin = Account.withUsername("admin")
             .password("1234")
             .passwordEncoder(passwordEncoder::encode)
+            .email("whddlf0504@naver.com")
+            .phone("010-7666-0421")
+            .firstName("Jongil")
+            .lastName("Kim")
             .roles("ADMIN")
+            .mfaEnable(true)
+            .mfaMethod("email")
             .build()
         return InmemoryUserService(admin)
     }
