@@ -34,12 +34,25 @@ public class User {
     private String email;
 
     @Setter
+    @Column(nullable = false, unique = true)
+    private String phone;
+
+    @Setter
     @Column(nullable = false)
     private String firstName;
 
     @Setter
     @Column(nullable = false)
     private String lastName;
+
+    @Setter
+    @Column(nullable = false)
+    private Boolean mfaEnabled;
+
+    @Setter
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private MfaVerificationMethod mfaVerificationMethod;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

@@ -45,14 +45,26 @@ public class UserRepositoryImpl implements UserRepository {
         return result != null;
     }
 
+    @Override
+    public boolean existsByPhone(String phone) {
+        Integer result = this.queryFactory.selectOne()
+                .from(user)
+                .where(user.phone.eq(phone))
+                .fetchOne();
+        return result != null;
+    }
+
     private ConstructorExpression<UserPreview> userPreview() {
         return Projections.constructor(
                 UserPreviewImpl.class,
                 user.username,
                 user.password,
                 user.email,
+                user.phone,
                 user.firstName,
                 user.lastName,
+                user.mfaEnabled,
+                user.mfaVerificationMethod,
                 user.createdAt,
                 user.updatedAt
         );

@@ -1,5 +1,9 @@
 package com.demo.user.repository.dto;
 
+import com.demo.user.repository.entity.MfaVerificationMethod;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,9 +20,15 @@ public class UserPreviewImpl implements UserPreview {
 
     private String email;
 
+    private String phone;
+    
     private String firstName;
 
     private String lastName;
+
+    private Boolean mfaEnabled;
+
+    private MfaVerificationMethod mfaVerificationMethod;
 
     private LocalDateTime createdAt;
 
