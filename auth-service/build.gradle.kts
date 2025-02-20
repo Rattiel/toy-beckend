@@ -13,6 +13,7 @@ configurations {
 }
 
 dependencies {
+    implementation(project(":common"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
