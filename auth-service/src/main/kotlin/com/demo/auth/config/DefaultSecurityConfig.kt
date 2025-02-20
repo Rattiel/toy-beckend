@@ -3,8 +3,11 @@ package com.demo.auth.config
 import com.demo.auth.authorization.login.LoginRedirectHandler
 import com.demo.auth.authorization.login.MfaRedirectHandler
 import com.demo.auth.authorization.mfa.MfaAuthenticationProvider
+import com.demo.auth.authorization.mfa.MfaAuthenticationRetryHandler
+import com.demo.auth.authorization.mfa.filter.MfaAuthenticationFilter
 import com.demo.auth.authorization.mfa.token.ConsoleMfaCodePublisher
 import com.demo.auth.authorization.mfa.token.DelegateMfaCodePublisher
+import com.demo.auth.authorization.mfa.token.MfaTokenAuthenticationProvider
 import com.demo.auth.web.LoginParameterNames
 import com.demo.auth.web.service.InmemoryUserService
 import com.demo.auth.web.service.UserService
@@ -13,6 +16,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
 import org.springframework.security.authentication.AuthenticationProvider
+import org.springframework.security.authentication.ProviderManager
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -23,6 +27,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.security.web.context.DelegatingSecurityContextRepository
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository
@@ -83,6 +89,26 @@ class DefaultSecurityConfig {
             .passwordManagement { passwordManagement ->
                 passwordManagement.changePasswordPage(PASSWORD_CHANGE_URL)
             }
+            .addFilterBefore(
+                MfaAuthenticationFilter(
+                    ProviderManager(
+                        MfaTokenAuthenticationProvider()
+                    )
+                ).apply {
+                    this.setSecurityContextHolderStrategy(SESSION_CONTEXT_HOLDER)
+                    this.setSecurityContextRepository(SESSION_CONTEXT_REPOSITORY)
+                    this.setAuthenticationSuccessHandler(SavedRequestAwareAuthenticationSuccessHandler().apply {
+                        this.setRequestCache(REQUEST_CACHE)
+                    })
+                    this.setAuthenticationFailureHandler(
+                        MfaAuthenticationRetryHandler("$MFA_URL?error").apply {
+                            this.setLoginPage(LOGIN_URL)
+                        }
+                    )
+                    this.setFilterProcessesUrl(MFA_URL)
+                },
+                UsernamePasswordAuthenticationFilter::class.java
+            )
             .exceptionHandling { exception ->
                 exception.defaultAccessDeniedHandlerFor(
                     LoginRedirectHandler().apply {
