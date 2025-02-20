@@ -1,7 +1,6 @@
 package com.demo.auth.authorization.core.mfa;
 
 import com.demo.auth.authorization.core.mfa.token.*;
-import com.demo.auth.authorization.mfa.token.*;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
