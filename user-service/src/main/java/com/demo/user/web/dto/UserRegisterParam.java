@@ -12,6 +12,8 @@ public class UserRegisterParam {
 
     private String email;
 
+    private String phone;
+
     private String firstName;
 
     private String lastName;

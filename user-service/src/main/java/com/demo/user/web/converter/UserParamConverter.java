@@ -1,4 +1,4 @@
-package com.demo.user.web.dto.converter;
+package com.demo.user.web.converter;
 
 import com.demo.user.web.dto.UserRegisterParam;
 import com.demo.user.web.dto.UserRegisterRequest;
