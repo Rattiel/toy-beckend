@@ -1,0 +1,14 @@
+spring:
+  batch:
+    jdbc:
+      initialize-schema: always
+      platform: postgresql
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:org/springframework/batch/core/schema-drop-${spring.batch.jdbc.platform}.sql, classpath:org/springframework/batch/core/schema-${spring.batch.jdbc.platform}.sql
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+

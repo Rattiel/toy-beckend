@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: admin
+    password: password
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          jwk-set-uri: http://auth-server/oauth2/jwk
+
+logging:
+  level:
+    com.demo: debug
