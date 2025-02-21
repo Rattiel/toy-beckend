@@ -8,7 +8,7 @@ import java.util.function.Function;
 public record MessageResponse(int status, String message) {
     public static Builder ok() {
         Builder builder = new Builder();
-        builder.status(HttpStatus.OK);
+        builder.status(HttpStatus.OK.value());
         return builder;
     }
 
@@ -17,15 +17,14 @@ public record MessageResponse(int status, String message) {
     }
 
     public static final class Builder {
-        private HttpStatus status;
+        private int status;
         private String message;
         private Function<String, String> messageDecoder = (message) -> message;
 
         private Builder() {
         }
 
-        public Builder status(HttpStatus status) {
-            Assert.notNull(status, "username cannot be null");
+        public Builder status(int status) {
             this.status = status;
             return this;
         }
@@ -45,7 +44,7 @@ public record MessageResponse(int status, String message) {
         public MessageResponse build() {
             String decodedMessage = this.messageDecoder.apply(this.message);
             return new MessageResponse(
-                    this.status.value(),
+                    this.status,
                     decodedMessage
             );
         }

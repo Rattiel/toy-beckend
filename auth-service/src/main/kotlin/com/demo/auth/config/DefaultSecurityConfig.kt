@@ -93,7 +93,9 @@ class DefaultSecurityConfig {
             .addFilterBefore(
                 MfaAuthenticationFilter(
                     ProviderManager(
-                        MfaTokenAuthenticationProvider()
+                        MfaTokenAuthenticationProvider().apply {
+                            this.setSecurityContextHolderStrategy(SESSION_CONTEXT_HOLDER_STRATEGY)
+                        }
                     )
                 ).apply {
                     this.setSecurityContextHolderStrategy(SESSION_CONTEXT_HOLDER_STRATEGY)

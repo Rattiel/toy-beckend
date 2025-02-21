@@ -53,7 +53,7 @@ public class ServletExceptionHandler implements ErrorController {
         String errorMessage = getErrorMessage(request);
         HttpStatus status = getErrorStatus(request);
         MessageResponse message = MessageResponse.builder()
-                .status(status)
+                .status(status.value())
                 .message(errorMessage)
                 .messageDecoder(this::decodeMessage)
                 .build();

@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebExceptionHandler;
@@ -46,7 +47,7 @@ public class ReactiveExceptionHandler implements WebExceptionHandler {
     public Mono<Void> handle(@NotNull ServerWebExchange exchange, @NotNull Throwable throwable) {
         ServiceException exception = exceptionMapper.apply(throwable);
         exchange.getResponse().setStatusCode(
-                exception.getStatus()
+                HttpStatus.valueOf(exception.getStatus())
         );
         MessageResponse message = MessageResponse.builder()
                 .status(exception.getStatus())

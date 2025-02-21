@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration(proxyBeanMethods = false)
 public class GrpcConfig {
-    private final static String USER_SERVICE = "localhost:8080";
+    private final static String USER_SERVICE = "localhost:8090";
 
     @Bean
     public ChannelFactory channelFactory() {

@@ -49,12 +49,7 @@ public class MfaAuthenticationProvider implements AuthenticationProvider {
             }
             throw e;
         }
-        return new MfaNeedAuthenticationToken(
-                result.getPrincipal(),
-                result.getCredentials(),
-                result.getAuthorities(),
-                token
-        );
+        return new MfaNeedAuthenticationToken(result, token);
     }
 
     @Override

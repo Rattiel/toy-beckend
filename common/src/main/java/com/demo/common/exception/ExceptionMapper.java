@@ -34,7 +34,7 @@ public class ExceptionMapper implements Function<Throwable, ServiceException> {
         for (Map.Entry<Class<? extends Throwable>, HttpStatus> mapping : mappings.entrySet()) {
             if (mapping.getKey().isInstance(exception)) {
                 return new ServiceException(
-                        mapping.getValue(),
+                        mapping.getValue().value(),
                         getMessage(exception)
                 );
             }
@@ -44,7 +44,7 @@ public class ExceptionMapper implements Function<Throwable, ServiceException> {
                 exception.getClass().getName()
         );
         return new ServiceException(
-                HttpStatus.SERVICE_UNAVAILABLE,
+                HttpStatus.SERVICE_UNAVAILABLE.value(),
                 getMessage(exception)
         );
     }

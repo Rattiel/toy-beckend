@@ -25,6 +25,7 @@ dependencyManagement {
 }
 
 dependencies {
+    implementation(project(":common"))
     api("io.grpc:grpc-servlet-jakarta:${dependencyManagement.importedProperties["grpc.version"]}")
     api("io.grpc:grpc-services:${dependencyManagement.importedProperties["grpc.version"]}")
     api("io.grpc:grpc-stub:${dependencyManagement.importedProperties["grpc.version"]}")
