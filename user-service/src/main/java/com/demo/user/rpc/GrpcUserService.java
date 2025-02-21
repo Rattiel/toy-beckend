@@ -29,7 +29,7 @@ public class GrpcUserService extends UserServiceGrpc.UserServiceImplBase {
                             .setPhone(user.getPhone())
                             .setFirstName(user.getFirstName())
                             .setLastName(user.getLastName())
-                            .setMfaEnable(user.getMfaEnabled())
+                            .setMfaEnabled(user.getMfaEnabled())
                             .setMfaMethod(user.getMfaMethod().getValue())
                             .build()
             );

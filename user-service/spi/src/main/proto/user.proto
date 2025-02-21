@@ -20,6 +20,6 @@ message User {
   string phone = 12;
   string firstName = 13;
   string lastName = 14;
-  bool mfaEnable = 30;
+  bool mfaEnabled = 30;
   string mfaMethod = 31;
 }

@@ -5,7 +5,7 @@ public interface MfaDetails {
 
     String getVerificationAddress();
 
-    default boolean isEnabled() {
+    default boolean isMfaEnabled() {
         return this.getVerificationMethod() != null && this.getVerificationAddress() != null;
     }
 }

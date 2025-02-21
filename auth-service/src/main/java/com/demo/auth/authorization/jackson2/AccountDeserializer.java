@@ -33,7 +33,7 @@ public class AccountDeserializer extends JsonDeserializer<Account> {
         boolean accountNonExpired = readJsonNode(jsonNode, "accountNonExpired").asBoolean();
         boolean credentialsNonExpired = readJsonNode(jsonNode, "credentialsNonExpired").asBoolean();
         boolean accountNonLocked = readJsonNode(jsonNode, "accountNonLocked").asBoolean();
-        boolean mfaEnable = readJsonNode(jsonNode, "mfaEnable").asBoolean();
+        boolean mfaEnabled = readJsonNode(jsonNode, "mfaEnabled").asBoolean();
         String mfaMethod = readJsonNode(jsonNode, "mfaMethod").asText();
         Set<? extends GrantedAuthority> authorities = mapper.convertValue(
                 jsonNode.get("authorities"),
@@ -50,7 +50,7 @@ public class AccountDeserializer extends JsonDeserializer<Account> {
                 accountNonExpired,
                 credentialsNonExpired,
                 accountNonLocked,
-                mfaEnable,
+                mfaEnabled,
                 mfaMethod,
                 authorities
         );

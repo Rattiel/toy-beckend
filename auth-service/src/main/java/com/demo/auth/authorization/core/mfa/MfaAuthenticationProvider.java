@@ -29,8 +29,8 @@ public class MfaAuthenticationProvider implements AuthenticationProvider {
             log.debug("MFA Authentication not supported principal [{}]", result.getPrincipal().getClass().getName());
             return result;
         }
-        if (!mfaDetails.isEnabled()) {
-            log.debug("MFA Authentication are disabled");
+        if (!mfaDetails.isMfaEnabled()) {
+            log.debug("MFA Authentication is disabled");
             return result;
         }
         MfaToken token = tokenGenerator.generate(mfaDetails);

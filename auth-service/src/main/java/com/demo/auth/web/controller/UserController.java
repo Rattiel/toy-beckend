@@ -34,11 +34,21 @@ public class UserController {
     @GetMapping("/mfa")
     public String mfa(Model model) {
         Authentication authentication = this.contextHolderStrategy.getContext().getAuthentication();
-        if (authentication instanceof MfaNeedAuthenticationToken token) {
-            model.addAttribute("code", token.getToken().getCode());
-        } else {
-            model.addAttribute("code", "코드 값이 존재하지 않습니다.");
+        if (!(authentication instanceof MfaNeedAuthenticationToken token)) {
+            return "redirect:/login";
         }
+        model.addAttribute(
+                "verificationMethod",
+                token.getToken().getVerificationMethod().toLowerCase()
+        );
+        model.addAttribute(
+                "verificationAddress",
+                token.getToken().getVerificationAddress()
+        );
+        model.addAttribute(
+                "verificationCode",
+                token.getToken().getCode()
+        );
         return "mfa";
     }
 }

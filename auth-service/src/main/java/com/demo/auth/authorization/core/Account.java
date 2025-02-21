@@ -36,7 +36,7 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
 
     private final boolean enabled;
 
-    private final boolean mfaEnable;
+    private final boolean mfaEnabled;
 
     private final String mfaMethod;
 
@@ -53,7 +53,7 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
             boolean accountNonExpired,
             boolean credentialsNonExpired,
             boolean accountNonLocked,
-            boolean mfaEnable,
+            boolean mfaEnabled,
             String mfaMethod,
             Collection<? extends GrantedAuthority> authorities) {
         Assert.isTrue(username != null && !username.isEmpty() && password != null,
@@ -68,7 +68,7 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
         this.accountNonExpired = accountNonExpired;
         this.credentialsNonExpired = credentialsNonExpired;
         this.accountNonLocked = accountNonLocked;
-        this.mfaEnable = mfaEnable;
+        this.mfaEnabled = mfaEnabled;
         this.mfaMethod = mfaMethod;
         this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
     }
@@ -97,6 +97,11 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
             return this.email;
         }
         return null;
+    }
+
+    @Override
+    public boolean isMfaEnabled() {
+        return this.mfaEnabled;
     }
 
     public static Builder withUsername(String username) {
@@ -191,7 +196,7 @@ public class Account implements UserDetails, CredentialsContainer, MfaDetails {
             return this;
         }
 
-        public Builder mfaEnable(boolean mfaEnable) {
+        public Builder mfaEnabled(boolean mfaEnable) {
             this.mfaEnable = mfaEnable;
             return this;
         }

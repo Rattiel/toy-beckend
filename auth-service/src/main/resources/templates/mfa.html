@@ -92,13 +92,16 @@
 <body>
 <div class="verification-container">
     <h1>Verification Required</h1>
-    <p>Please enter the verification code sent to your phone</p>
+    <p>Please enter the verification code sent to your
+        <th:block th:text="${verificationMethod}">verificationMethod</th:block>
+        (<th:block th:text="${verificationAddress}">verificationAddress</th:block>)
+    </p>
     <!-- Error Message -->
     <div th:if="${param.error}" class="error-message" id="error-message">Invalid verification code. Please try again.</div>
     <form name="mfa_from" method="post" th:action="@{/mfa}" class="verification-form">
         <label for="code">
             Verification Code:
-            <th:block th:text="${code}">code</th:block>
+            <th:block th:text="${verificationCode}">code</th:block>
         </label>
         <input type="text" id="code" name="code" placeholder="Enter your verification code" required>
 

@@ -37,7 +37,7 @@ public class RpcUserService implements UserService {
                     .phone(user.getPhone())
                     .firstName(user.getFirstName())
                     .lastName(user.getLastName())
-                    .mfaEnable(user.getMfaEnable())
+                    .mfaEnabled(user.getMfaEnabled())
                     .mfaMethod(user.getMfaMethod())
                     .build();
         }
