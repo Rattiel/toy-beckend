@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping("/mfa")
     public String mfa(Model model) {
-        Authentication authentication = contextHolderStrategy.getContext().getAuthentication();
+        Authentication authentication = this.contextHolderStrategy.getContext().getAuthentication();
         if (authentication instanceof MfaNeedAuthenticationToken token) {
             model.addAttribute("code", token.getToken().getCode());
         } else {

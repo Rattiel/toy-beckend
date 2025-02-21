@@ -1,8 +1,9 @@
 package com.demo.auth.config
 
-import com.demo.auth.authorization.core.Account
 import com.demo.auth.authorization.core.LoginRedirectHandler
 import com.demo.auth.authorization.core.MfaRedirectHandler
+import com.demo.auth.authorization.core.constant.LoginParameterNames
+import com.demo.auth.authorization.core.constant.MfaParameterNames
 import com.demo.auth.authorization.core.mfa.MfaAuthenticationProvider
 import com.demo.auth.authorization.core.mfa.MfaAuthenticationRetryHandler
 import com.demo.auth.authorization.core.mfa.filter.MfaAuthenticationFilter
@@ -10,9 +11,6 @@ import com.demo.auth.authorization.core.mfa.filter.RetrieveMfaAuthenticationFilt
 import com.demo.auth.authorization.core.mfa.token.ConsoleMfaCodePublisher
 import com.demo.auth.authorization.core.mfa.token.DelegateMfaCodePublisher
 import com.demo.auth.authorization.core.mfa.token.MfaTokenAuthenticationProvider
-import com.demo.auth.authorization.core.constant.LoginParameterNames
-import com.demo.auth.authorization.core.constant.MfaParameterNames
-import com.demo.auth.web.service.InmemoryUserService
 import com.demo.auth.web.service.UserService
 import lombok.extern.slf4j.Slf4j
 import org.springframework.context.annotation.Bean
@@ -25,7 +23,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.context.SecurityContextHolderStrategy
-import org.springframework.security.core.userdetails.User
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
@@ -166,6 +163,7 @@ class DefaultSecurityConfig {
         }
     }
 
+    /*
     @Bean
     fun userService(passwordEncoder: PasswordEncoder): UserService {
         val admin = Account.withUsername("admin")
@@ -181,4 +179,5 @@ class DefaultSecurityConfig {
             .build()
         return InmemoryUserService(admin)
     }
+     */
 }

@@ -64,7 +64,7 @@ public class UserRepositoryImpl implements UserRepository {
                 user.firstName,
                 user.lastName,
                 user.mfaEnabled,
-                user.mfaVerificationMethod,
+                user.mfaMethod,
                 user.createdAt,
                 user.updatedAt
         );

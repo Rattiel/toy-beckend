@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(
         scanBasePackages = {
-                "com.demo.user",
+                "com.demo.common",
                 "com.demo.user"
         }
 )

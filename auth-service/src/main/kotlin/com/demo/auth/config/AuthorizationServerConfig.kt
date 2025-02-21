@@ -1,12 +1,12 @@
 package com.demo.auth.config
 
-import com.demo.auth.authorization.jackson2.AuthServerJackson2Module
-import com.demo.auth.authorization.oauth.jose.Jwks
 import com.demo.auth.authorization.core.LoginRedirectHandler
 import com.demo.auth.authorization.core.mfa.filter.RetrieveMfaAuthenticationFilter
+import com.demo.auth.authorization.jackson2.AuthServerJackson2Module
+import com.demo.auth.authorization.oauth.OAuthLoginUrlAuthenticationEntryPoint
+import com.demo.auth.authorization.oauth.jose.Jwks
 import com.demo.auth.authorization.oauth.token.DelegatingOAuth2TokenCustomizer
 import com.demo.auth.authorization.oauth.token.IdTokenCustomizer
-import com.demo.auth.authorization.oauth.OAuthLoginUrlAuthenticationEntryPoint
 import com.demo.auth.config.DefaultSecurityConfig.Companion.LOGIN_URL
 import com.demo.auth.config.DefaultSecurityConfig.Companion.MFA_URL
 import com.demo.auth.config.DefaultSecurityConfig.Companion.REQUEST_CACHE

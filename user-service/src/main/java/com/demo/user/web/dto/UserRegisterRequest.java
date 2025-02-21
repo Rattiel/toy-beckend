@@ -18,6 +18,9 @@ public class UserRegisterRequest {
     @NotEmpty(message = "email cannot be empty")
     private String email;
 
+    @NotEmpty(message = "phone cannot be empty")
+    private String phone;
+
     @NotEmpty(message = "firstName cannot be empty")
     private String firstName;
 

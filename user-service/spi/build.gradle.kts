@@ -1,13 +1,26 @@
 import com.google.protobuf.gradle.id
 
 plugins {
+    id("java-library")
+    id("org.springframework.boot") apply false
     id("io.spring.dependency-management")
     id("com.google.protobuf")
 }
 
+configurations {
+    compileOnly {
+        extendsFrom(configurations.annotationProcessor.get())
+    }
+}
+
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.grpc:spring-grpc-dependencies:${property("springGrpcVersion")}")
+        mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+    }
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.grpc:spring-grpc-dependencies:${property("springGrpcVersion")}")
+        }
     }
 }
 
@@ -17,6 +30,9 @@ dependencies {
     api("io.grpc:grpc-stub:${dependencyManagement.importedProperties["grpc.version"]}")
     api("org.springframework.grpc:spring-grpc-spring-boot-starter:${property("springGrpcVersion")}")
     testApi("org.springframework.grpc:spring-grpc-test:${property("springGrpcVersion")}")
+    implementation("org.springframework.security:spring-security-core")
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
 }
 
 protobuf {

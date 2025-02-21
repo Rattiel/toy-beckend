@@ -14,6 +14,7 @@ public class UserParamConverter implements Function<UserRegisterRequest, UserReg
                 .username(request.getUsername())
                 .password(request.getPassword())
                 .email(request.getEmail())
+                .phone(request.getPhone())
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .build();
